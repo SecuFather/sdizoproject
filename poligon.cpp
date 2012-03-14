@@ -26,7 +26,8 @@ int main(){
 
 	displayGraphMatrix(graph);
 
-	minimumSpanningTree(graph);
+	mstKruscal(graph);
+
 
 	displayGraphMatrix(graph);
 	delete graph;

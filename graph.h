@@ -5,7 +5,7 @@ class Graph{
 private:
 	const int max;
 	int **matrix;
-	int maxIndex;
+	int maxIndex, vCount;
 public:
 	Graph();
 	~Graph();
@@ -25,6 +25,7 @@ public:
 	int getMax();
 	int getMaxIndex();
 	int **getMatrix();
+	int getVertexCount();
 	void fix();
 };
 
