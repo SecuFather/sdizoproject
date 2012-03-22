@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include "graph.h"
 #include "algorithms.h"
+#include "containers.h"
 using namespace std;
 
 
@@ -11,24 +12,28 @@ using namespace std;
 
 int main(){
 	Graph *graph = new Graph();
-	for(int i=0; i<6; ++i){
+	for(int i=1; i<9; ++i){
 		graph->addVerticle(i);
 	}
-	graph->addEdge(0, 1, 4);
-	graph->addEdge(0, 4, 1);
-	graph->addEdge(0, 5, 2);
-	graph->addEdge(1, 2, 2);
-	graph->addEdge(1, 4, 2);
-	graph->addEdge(2, 3, 8);
-	graph->addEdge(3, 4, 3);
-	graph->addEdge(3, 5, 6);
-	graph->addEdge(4, 5, 7);
+	graph->addEdge(1, 2, 5);
+	graph->addEdge(1, 3, 4);
+	graph->addEdge(2, 3, 2);
+	graph->addEdge(2, 5, 3);
+	graph->addEdge(2, 6, 5);
+	graph->addEdge(3, 4, 4);
+	graph->addEdge(3, 5, 3);
+	graph->addEdge(3, 6, 6);
+	graph->addEdge(4, 6, 5);
+	graph->addEdge(4, 7, 5);
+	graph->addEdge(4, 8, 4);
+	graph->addEdge(5, 6, 4);
+	graph->addEdge(5, 7, 7);
+	graph->addEdge(6, 7, 5);
+	graph->addEdge(7, 8, 4);
 
-	displayGraphMatrix(graph);
+	cout<<spBellman(graph, 1, 7)<<endl;
 
-	mstKruscal(graph);
-
-
-	displayGraphMatrix(graph);
 	delete graph;
+
 }
+

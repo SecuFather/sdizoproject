@@ -1,4 +1,5 @@
 #include "algorithms.h"
+#include "containers.h"
 #include "graph.h"
 #include <queue>
 #include <set>
@@ -19,15 +20,6 @@ void displayGraphMatrix(Graph *graph){
 	}
 }
 
-class Edge{
-public:
-	int x, y, v;
-	Edge(int x=0, int y=0, int v=0) : x(x < y ? x : y), y(x < y ? y : x), v(v){}
-};
-
-bool operator<(const Edge &e1, const Edge &e2){
-	return e1.v > e2.v;
-}
 
 void mstPrim(Graph *graph){
 	priority_queue<Edge> eQueue;
@@ -105,4 +97,47 @@ void mstKruscal(Graph *graph){
 			}
 		}
 	}
+}
+
+int spDijkstra(Graph *graph, int start, int end){
+	Heap paths(graph->getMaxIndex()+1);
+	int x = start, y = -1, base;
+
+	paths.addNode(start, 0);
+	while(x != end){
+		base = paths.pop();
+		while( (y = graph->nextEdge(x, y)) >= 0){
+			Edge e1(x, y);
+			e1.v = graph->getEdge(e1.x, e1.y);
+			graph->setEdge(e1.x, e1.y, -e1.v);
+			paths.setNode(y, base+e1.v);
+		}
+		x = paths.top();
+	}
+	graph->fix();
+
+	return paths.pop();
+}
+
+int spBellman(Graph *graph, int start, int end){
+	int n = graph->getMaxIndex()+1;
+	int *paths = new int[n];
+	paths[start] = 0;
+	for(int i=0; i<n; ++i){
+		if(i != start){
+			paths[i] = 1000000;
+		}
+	}
+
+	int x=-1, y=-1;
+	while((x = graph->nextVertex(x)) >=0){
+		while((y = graph->nextEdge(x, y)) >= 0){
+			Edge e1(x, y);
+			e1.v = graph->getEdge(e1.x, e1.y);
+			if(paths[e1.y] > paths[e1.x] + e1.v){
+				paths[e1.y] = paths[e1.x] + e1.v;
+			}
+		}
+	}
+	return paths[end];
 }
