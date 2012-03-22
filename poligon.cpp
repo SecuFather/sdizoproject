@@ -1,7 +1,7 @@
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
-#include "graph.h"
+#include "mgraph.h"
 #include "algorithms.h"
 #include "containers.h"
 using namespace std;
@@ -11,7 +11,7 @@ using namespace std;
 
 
 int main(){
-	Graph *graph = new Graph();
+	MGraph *graph = new MGraph();
 	for(int i=1; i<9; ++i){
 		graph->addVerticle(i);
 	}

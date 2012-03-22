@@ -2,31 +2,29 @@
 #define GRAPH_H_
 
 class Graph{
-private:
+protected:
 	const int max;
-	int **matrix;
-	int maxIndex, vCount;
 public:
-	Graph();
-	~Graph();
+	Graph():max(1000){}
+	virtual ~Graph(){};
 
-	bool addVerticle(int at);
-	bool addEdge(int x, int y, int value);
+	virtual bool addVerticle(int at)=0;
+	virtual bool addEdge(int x, int y, int value)=0;
 
-	bool removeVerticle(int at);
-	bool removeEdge(int x, int y);
+	virtual bool removeVerticle(int at)=0;
+	virtual bool removeEdge(int x, int y)=0;
 
-	int nextVertex(int prev);
-	int nextEdge(int x, int prev);
+	virtual int nextVertex(int prev)=0;
+	virtual int nextEdge(int x, int prev)=0;
 
-	int getEdge(int x, int y);
-	void setEdge(int x, int y, int v);
+	virtual int getEdge(int x, int y)=0;
+	virtual void setEdge(int x, int y, int v)=0;
 
-	int getMax();
-	int getMaxIndex();
-	int **getMatrix();
-	int getVertexCount();
-	void fix();
+	virtual int getMax()=0;
+	virtual int getMaxIndex()=0;
+	virtual int **getMatrix()=0;
+	virtual int getVertexCount()=0;
+	virtual void fix()=0;
 };
 
 #endif /* GRAPH_H_ */
