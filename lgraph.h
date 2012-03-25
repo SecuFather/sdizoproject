@@ -1,14 +1,17 @@
-#ifndef MGRAPH_H_
-#define MGRAPH_H_
+#ifndef LGRAPH_H_
+#define LGRAPH_H_
 
 #include "graph.h"
+#include <list>
+using namespace std;
 
-class MGraph : public Graph{
+class LGraph : public Graph{
 protected:
-	int **matrix;
+	list<Edge> **vertices;
+	list<Edge>::iterator current;
 public:
-	MGraph();
-	virtual ~MGraph();
+	LGraph();
+	virtual ~LGraph();
 
 	virtual bool addVertex(int at);
 	virtual bool addEdge(int x, int y, int value);
@@ -19,7 +22,8 @@ public:
 	virtual int nextEdge(int x, int prev);
 
 	virtual int getEdge(int x, int y);
+
 };
 
 
-#endif /* MGRAPH_H_ */
+#endif /* LGRAPH_H_ */

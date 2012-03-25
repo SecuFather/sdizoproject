@@ -8,35 +8,24 @@
 #include <iostream>
 using namespace std;
 
-void displayGraphMatrix(Graph *graph){
-	int **matrix = graph->getMatrix();
-
-	for(int i=0;i<=graph->getMaxIndex(); ++i){
-		for(int j=0; j<i+1; ++j){
-			cout.width(3);
-			cout<<matrix[i][j];
-		}
-		cout<<endl;
-	}
-}
-
-
-void mstPrim(Graph *graph){
+int mstPrim(Graph *graph){
 	priority_queue<Edge> eQueue;
+	int result=0;
 
-	int x = graph->nextVertex(-1), y = -1;
-	for(int i=0; i<graph->getMaxIndex(); ++i){
-		graph->setEdge(x, x, -1);
+	int x = graph->nextVertex(-1), y = -1, n = graph->getVertexCount();
+	for(int i=0; i<n-1; ++i){
 
 		while((y = graph->nextEdge(x, y)) >= 0){
-			Edge e(x, y, 0);
-			e.v = graph->getEdge(e.x, e.y);
-			eQueue.push(e);
-			graph->setEdge(e.x, e.y, 0);
+			eQueue.push(graph->removeEdge(x, y));
 		}
-		Edge e = eQueue.top();
-		eQueue.pop();
-		graph->setEdge(e.x, e.y, -e.v);
+		graph->removeEdge(x, x);
+		Edge e;
+		do{
+			e = eQueue.top();
+			eQueue.pop();
+		}while(graph->getEdge(e.x, e.x) <= 0 && graph->getEdge(e.y, e.y) <= 0);
+		cout<<e.x<<", "<<e.y<<", "<<e.v<<endl;
+		result += e.v;
 
 		if(graph->getEdge(e.x, e.x) > 0){
 			x = e.x;
@@ -44,32 +33,28 @@ void mstPrim(Graph *graph){
 			x = e.y;
 		}
 	}
-	graph->fix();
-
+	return result;
 }
 
-void mstKruscal(Graph *graph){
+int mstKruscal(Graph *graph){
 	priority_queue<Edge> eQueue;
 	list< set<int> > forest(graph->getVertexCount());
 	list< set<int> >::iterator it;
 	list< set<int> >::iterator tmp;
 
+	int result = 0;
 	int x = -1, y = -1;
 	for(it = forest.begin(); (x = graph->nextVertex(x)) >= 0; ++it){
 		it->insert(x);
 		while((y = graph->nextEdge(x, y)) >= 0){
-			Edge e(x, y, 0);
-			e.v = graph->getEdge(e.x, e.y);
-			graph->setEdge(e.x, e.y, 0);
-
-			eQueue.push(e);
+			eQueue.push(graph->removeEdge(x, y));
 		}
 	}
 	while( forest.size() > 1 ){
 		Edge e = eQueue.top();
 		eQueue.pop();
 
-		bool nxt = false, inv = false;
+		bool nxt = false;
 		for(it = forest.begin(); it != forest.end(); ++it){
 			if(!nxt){
 				if(binary_search(it->begin(), it->end(), e.x)){
@@ -78,7 +63,6 @@ void mstKruscal(Graph *graph){
 				}else{
 					if(binary_search(it->begin(), it->end(), e.y)){
 						nxt = true;
-						inv = true;
 						swap(e.x, e.y);
 						tmp = it;
 					}
@@ -87,16 +71,14 @@ void mstKruscal(Graph *graph){
 				if(binary_search(it->begin(), it->end(), e.y)){
 					tmp->insert(it->begin(), it->end());
 					forest.erase(it);
-					if(inv){
-						graph->addEdge(e.y, e.x, e.v);
-					}else{
-						graph->addEdge(e.x, e.y, e.v);
-					}
+					result += e.v;
+					cout<<e.x<<", "<<e.y<<", "<<e.v<<endl;
 					break;
 				}
 			}
 		}
 	}
+	return result;
 }
 
 int spDijkstra(Graph *graph, int start, int end){
@@ -107,14 +89,16 @@ int spDijkstra(Graph *graph, int start, int end){
 	while(x != end){
 		base = paths.pop();
 		while( (y = graph->nextEdge(x, y)) >= 0){
-			Edge e1(x, y);
-			e1.v = graph->getEdge(e1.x, e1.y);
-			graph->setEdge(e1.x, e1.y, -e1.v);
-			paths.setNode(y, base+e1.v);
+			Edge e1 = graph->removeEdge(x, y);
+			if(x != e1.x){
+				paths.setNode(e1.x, base+e1.v);
+			}else{
+				paths.setNode(e1.y, base+e1.v);
+			}
 		}
+		graph->removeEdge(x, x);
 		x = paths.top();
 	}
-	graph->fix();
 
 	return paths.pop();
 }
@@ -139,5 +123,7 @@ int spBellman(Graph *graph, int start, int end){
 			}
 		}
 	}
-	return paths[end];
+	n = paths[end];
+	delete[] paths;
+	return n;
 }

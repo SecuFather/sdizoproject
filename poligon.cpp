@@ -2,18 +2,24 @@
 #include <ctime>
 #include <cstdlib>
 #include "mgraph.h"
+#include "lgraph.h"
 #include "algorithms.h"
 #include "containers.h"
+#include <list>
 using namespace std;
 
 
-
-
+void showe(list<Edge> &e){
+	list<Edge>::iterator it;
+	for(it = e.begin(); it != e.end(); ++it){
+		cout << "(" << it->x << ", " << it->y << ", " << it->v << ")" << endl;
+	}
+}
 
 int main(){
-	MGraph *graph = new MGraph();
+	LGraph *graph = new LGraph();
 	for(int i=1; i<9; ++i){
-		graph->addVerticle(i);
+		graph->addVertex(i);
 	}
 	graph->addEdge(1, 2, 5);
 	graph->addEdge(1, 3, 4);
@@ -31,9 +37,12 @@ int main(){
 	graph->addEdge(6, 7, 5);
 	graph->addEdge(7, 8, 4);
 
-	cout<<spBellman(graph, 1, 7)<<endl;
+	for(int i=1; i<9; ++i){
+		cout<<spDijkstra(graph, 1, 3)<<endl;
+	}
 
 	delete graph;
+
 
 }
 

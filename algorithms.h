@@ -4,8 +4,8 @@
 class Graph;
 
 void displayGraphMatrix(Graph *graph);
-void mstPrim(Graph *graph);
-void mstKruscal(Graph *graph);
+int mstPrim(Graph *graph);
+int mstKruscal(Graph *graph);
 int spDijkstra(Graph *graph, int start, int end);
 int spBellman(Graph *graph, int start, int end);
 
