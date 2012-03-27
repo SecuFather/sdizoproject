@@ -45,6 +45,9 @@ void Heap::setNode(int key, int value){
 }
 
 int Heap::pop(){
+	if(!heapSize){
+		return -1;
+	}
 	swap(0, heapSize-1);
 	--heapSize;
 	repairHeap(0);

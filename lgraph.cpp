@@ -7,6 +7,11 @@ LGraph::LGraph() : vertices(new list<Edge>*[max]){
 }
 
 LGraph::~LGraph(){
+	for(int i=0; i<max; ++i){
+		if(vertices[i]){
+			delete vertices[i];
+		}
+	}
 	delete[] vertices;
 }
 
@@ -23,7 +28,7 @@ bool LGraph::addVertex(int at){
 }
 
 bool LGraph::addEdge(int x, int y, int value){
-	if(vertices[x]){
+	if(vertices[x] && value){
 		Edge e(x, y, value);
 		vertices[x]->push_back(e);
 		vertices[y]->push_back(e);

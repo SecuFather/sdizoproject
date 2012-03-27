@@ -87,7 +87,9 @@ int spDijkstra(Graph *graph, int start, int end){
 
 	paths.addNode(start, 0);
 	while(x != end){
-		base = paths.pop();
+		if((base = paths.pop()) < 0){
+			return -1;
+		}
 		while( (y = graph->nextEdge(x, y)) >= 0){
 			Edge e1 = graph->removeEdge(x, y);
 			if(x != e1.x){
@@ -109,17 +111,16 @@ int spBellman(Graph *graph, int start, int end){
 	paths[start] = 0;
 	for(int i=0; i<n; ++i){
 		if(i != start){
-			paths[i] = 1000000;
+			paths[i] = -1;
 		}
 	}
 
 	int x=-1, y=-1;
 	while((x = graph->nextVertex(x)) >=0){
 		while((y = graph->nextEdge(x, y)) >= 0){
-			Edge e1(x, y);
-			e1.v = graph->getEdge(e1.x, e1.y);
-			if(paths[e1.y] > paths[e1.x] + e1.v){
-				paths[e1.y] = paths[e1.x] + e1.v;
+			Edge e = graph->removeEdge(x, y);
+			if(paths[e.y] > 0 && paths[e.y] > paths[e.x] + e.v){
+				paths[e.y] = paths[e.x] + e.v;
 			}
 		}
 	}
