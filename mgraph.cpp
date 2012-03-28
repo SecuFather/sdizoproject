@@ -1,6 +1,6 @@
 #include "mgraph.h"
 
-MGraph::MGraph():Graph(){
+MGraph::MGraph(int maxSize):Graph(maxSize){
 	matrix = new int*[max];
 	for(int i=0; i<max; ++i){
 		matrix[i] = new int[i+1];

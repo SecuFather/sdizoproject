@@ -8,7 +8,7 @@ protected:
 	const int max;
 	int vCount, maxIndex;
 public:
-	Graph():max(10000), vCount(0), maxIndex(-1){}
+	Graph(int maxSize):max(maxSize), vCount(0), maxIndex(-1){}
 	virtual ~Graph(){};
 
 	virtual bool addVertex(int at)=0;

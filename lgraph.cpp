@@ -1,6 +1,6 @@
 #include "lgraph.h"
 
-LGraph::LGraph() : vertices(new list<Edge>*[max]){
+LGraph::LGraph(int maxSize) : Graph(maxSize), vertices(new list<Edge>*[max]){
 	for(int i=0; i<max; ++i){
 		vertices[i] = 0;
 	}

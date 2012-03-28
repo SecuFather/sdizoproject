@@ -7,7 +7,7 @@ class MGraph : public Graph{
 protected:
 	int **matrix;
 public:
-	MGraph();
+	MGraph(int maxSize);
 	virtual ~MGraph();
 
 	virtual bool addVertex(int at);

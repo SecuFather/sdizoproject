@@ -10,7 +10,7 @@ protected:
 	list<Edge> **vertices;
 	list<Edge>::iterator current;
 public:
-	LGraph();
+	LGraph(int maxSize);
 	virtual ~LGraph();
 
 	virtual bool addVertex(int at);
