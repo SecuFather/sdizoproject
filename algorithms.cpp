@@ -24,13 +24,16 @@ int mstPrim(Graph *graph){
 			e = eQueue.top();
 			eQueue.pop();
 		}while(graph->getEdge(e.x, e.x) <= 0 && graph->getEdge(e.y, e.y) <= 0);
-		cout<<e.x<<", "<<e.y<<", "<<e.v<<endl;
 		result += e.v;
 
 		if(graph->getEdge(e.x, e.x) > 0){
 			x = e.x;
 		}else{
-			x = e.y;
+			if(graph->getEdge(e.y, e.y) > 0){
+				x = e.y;
+			}else{
+				break;
+			}
 		}
 	}
 	return result;
@@ -72,7 +75,6 @@ int mstKruscal(Graph *graph){
 					tmp->insert(it->begin(), it->end());
 					forest.erase(it);
 					result += e.v;
-					cout<<e.x<<", "<<e.y<<", "<<e.v<<endl;
 					break;
 				}
 			}
